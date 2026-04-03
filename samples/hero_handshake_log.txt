@@ -1,20 +1,48 @@
-[PTV] Hero Handshake – SAMPLE ONLY (LOCAL_MOCK)
+🛂 Digital Passport v2.0 — GAIP-2030 Governance Demo
+====================================================
 
-handshake_id      : ptv-hero-2026-04-03T08:00:00Z-0001
-timestamp         : 2026-04-03T08:00:00Z
-agent_id          : agent-clinical-cdss-α-42
-purpose           : "EU telehealth triage – non-emergency"
-model_hash        : sha256:MODEL_HASH_SAMPLE
-policy_hash       : sha256:POLICY_HASH_SAMPLE
-region            : "eu-central"
-governance_pack   : "EU_AI_Act_Art15+Art50"
+[AGENT] clinical_agent_01 (Maturity: Level 4 - Quantitative Management)
+[SCENARIO] EU Telehealth Triage — Non-Emergency Patient Eligibility
 
-tpm_quote         : "tpm2-quote:BASE64_SAMPLE"
-zk_proof_scheme   : "groth16"
-zk_proof_hash     : sha256:ZK_PROOF_SAMPLE
+--- 🔐 ATTESTATION LAYER ---
+✅ Model Hash: sha256:a1b2c3d4... (Authorized v4.2)
+✅ Policy Hash: sha256:e5f6g7h8... (EU_AI_ACT_HEALTHCARE_V2)
+✅ Hardware Anchor: TPM 2.0 (Infineon SLB9670) — Verified
+✅ Proof Type: Groth16 ZK-Proof
+✅ Generation Time: 187ms
 
-triage_band       : 1
-verdict           : "ESCALATED"
-latency_ms        : 187
+--- 🎛️ GOVERNANCE LAYER (GAIP-2030) ---
+✅ Policy ID: EU_AI_ACT_HEALTHCARE_V2
+✅ Controls Passed: Art.10, Art.13, Art.15, Art.22
+✅ Compliance Score: 0.98/1.00
 
-note              : "Sample, non‑production values. For spec illustration only."
+🔄 Triage Decision:
+   • Risk Score: 0.42 (Medium)
+   • Selected Tier: ZK_PROOF (16% band)
+   • Rationale: "medium_risk_requires_privacy"
+   • Confidence Index: 0.992 (≥0.95 Level 4 threshold ✅)
+   • Human Override: False
+
+--- 🌍 SOVEREIGNTY LAYER ---
+✅ Jurisdiction: EU/DE
+✅ Compliance Frameworks: GDPR, EU_AI_ACT, HIPAA
+✅ Data Residency: eu-central-1 (Verified)
+
+--- 📈 MATURITY LAYER (Post-Application-Era) ---
+✅ Declared Level: 4 (Quantitative Management)
+✅ Criteria Met:
+   • Hardware-anchored identity (TPM 2.0)
+   • Active policy enforcement (GAIP-2030)
+   • Zero-knowledge attestation (Groth16)
+   • Statistical monitoring (Confidence Index tracking)
+
+--- 🏆 FINAL VERDICT ---
+✅ PASSPORT VALID — AGENT AUTHORIZED
+🎫 Badge Issued: LEVEL_4_ZK_GOVERNANCE™
+⏱️ Total Verification: 192ms (187ms proof + 5ms policy check)
+💰 Estimated Cost: .002 (vs. .00 manual review)
+
+📜 Audit Commitment: sha256:ledger_commit_abc123...
+🔐 Signature: ed25519:tpm_signed_def456...
+
+[NOTE] This is a simulation log for specification illustration.

@@ -1,65 +1,104 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "PTV Hero Handshake",
+  "title": "PTV Digital Passport v2.0",
+  "description": "Hardware-anchored identity with GAIP-2030 governance, 83/16/1 triage, and Post-Application-Era maturity",
   "type": "object",
   "properties": {
-    "handshake_id": { "type": "string" },
-    "timestamp": { "type": "string", "format": "date-time" },
+    "protocol": { "type": "string", "const": "PTV" },
+    "version": { "type": "string", "const": "2.0" },
+    
     "agent": {
       "type": "object",
       "properties": {
-        "agent_id": { "type": "string" },
-        "purpose": { "type": "string" }
+        "id": { "type": "string", "format": "uri" },
+        "type": { "type": "string" },
+        "capabilities": { "type": "array", "items": { "type": "string" } },
+        "maturity_level": { 
+          "type": "integer", 
+          "enum": [1, 2, 3, 4, 5],
+          "description": "Post-Application-Era maturity level (1=Initial, 5=Optimizing)"
+        }
       },
-      "required": ["agent_id", "purpose"]
+      "required": ["id", "maturity_level"]
     },
-    "model": {
+    
+    "attestation": {
       "type": "object",
       "properties": {
-        "model_name": { "type": "string" },
-        "model_hash": { "type": "string" }
-      },
-      "required": ["model_hash"]
-    },
-    "policy": {
-      "type": "object",
-      "properties": {
-        "policy_id": { "type": "string" },
-        "policy_hash": { "type": "string" }
-      },
-      "required": ["policy_hash"]
-    },
-    "hardware": {
-      "type": "object",
-      "properties": {
-        "tpm_quote": { "type": "string" },
-        "tee_report": { "type": "string" }
+        "model_hash": { "type": "string" },
+        "policy_hash": { "type": "string" },
+        "hardware_anchor": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string", "enum": ["tpm2.0", "tee", "secure_enclave"] },
+            "manufacturer": { "type": "string" },
+            "evidence": { "type": "string" }
+          }
+        },
+        "proof": { "type": "string" },
+        "generation_ms": { "type": "number" }
       }
     },
-    "jurisdiction": {
+    
+    "governance": {
       "type": "object",
       "properties": {
-        "region": { "type": "string" },
-        "governance_pack": { "type": "string" }
+        "gaip_2030": {
+          "type": "object",
+          "properties": {
+            "policy_id": { "type": "string" },
+            "controls": { "type": "array", "items": { "type": "string" } },
+            "compliance_score": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "triage_rule": {
+          "type": "object",
+          "properties": {
+            "tier": { "type": "string", "enum": ["ROUTINE", "ZK_PROOF", "BFT"] },
+            "percentage": { "type": "integer", "enum": [83, 16, 1] },
+            "rationale": { "type": "string" }
+          }
+        },
+        "confidence_index": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Required ≥0.95 for Level 4, ≥0.99 for Level 5"
+        },
+        "human_override": { "type": "boolean" }
       },
-      "required": ["region"]
+      "required": ["triage_rule", "confidence_index"]
     },
-    "zk_proof": {
+    
+    "sovereign_bound": {
       "type": "object",
       "properties": {
-        "scheme": { "type": "string" },
-        "proof_blob": { "type": "string" }
+        "jurisdiction": { "type": "string" },
+        "compliance": { "type": "array", "items": { "type": "string" } },
+        "data_residency": { "type": "string" }
+      },
+      "required": ["jurisdiction"]
+    },
+    
+    "post_application": {
+      "type": "object",
+      "properties": {
+        "maturity_level": { "type": "integer", "enum": [1, 2, 3, 4, 5] },
+        "level_name": { "type": "string" },
+        "criteria_met": { "type": "array", "items": { "type": "string" } }
       }
     },
-    "decision": {
+    
+    "delegation": {
       "type": "object",
       "properties": {
-        "triage_band": { "type": "string", "enum": ["83", "16", "1"] },
-        "verdict": { "type": "string", "enum": ["APPROVED", "QUARANTINED", "ESCALATED"] },
-        "latency_ms": { "type": "number" }
-      },
-      "required": ["triage_band", "verdict"]
-    }
+        "issued_by": { "type": "string" },
+        "scope": { "type": "array", "items": { "type": "string" } },
+        "expires": { "type": "string", "format": "date-time" }
+      }
+    },
+    
+    "signature": { "type": "string" }
   },
-  "required": ["handshake_id", "timestamp", "agent", "model", "policy", "jurisdiction", "decision"]
+  "required": ["protocol", "version", "agent", "attestation", "governance", "sovereign_bound", "signature"]
 }
