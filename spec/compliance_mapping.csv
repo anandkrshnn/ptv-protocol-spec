@@ -1,0 +1,5 @@
+ptv_field,description,eu_ai_act_reference,notes
+model.model_hash,Identity and version of the model,Article 15(1) - accuracy and robustness; Annex IV(2),Supports traceability and performance documentation
+policy.policy_hash,Identity of policy and safety constraints,Article 15(4) - resilience; Annex IV(2),Supports documentation of safety measures
+jurisdiction.governance_pack,Applied governance template (e.g. EU_AI_Act_Art15+Art50),Article 50 - transparency obligations; Article 15,Indicates which legal pack the handshake is aligned to
+decision.triage_band,83/16/1 band assigned to this call,Article 15 - lifecycle monitoring,Used for risk‑based routing and human oversight

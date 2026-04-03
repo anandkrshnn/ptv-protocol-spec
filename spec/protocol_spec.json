@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PTV Hero Handshake",
+  "type": "object",
+  "properties": {
+    "handshake_id": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "agent": {
+      "type": "object",
+      "properties": {
+        "agent_id": { "type": "string" },
+        "purpose": { "type": "string" }
+      },
+      "required": ["agent_id", "purpose"]
+    },
+    "model": {
+      "type": "object",
+      "properties": {
+        "model_name": { "type": "string" },
+        "model_hash": { "type": "string" }
+      },
+      "required": ["model_hash"]
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "policy_id": { "type": "string" },
+        "policy_hash": { "type": "string" }
+      },
+      "required": ["policy_hash"]
+    },
+    "hardware": {
+      "type": "object",
+      "properties": {
+        "tpm_quote": { "type": "string" },
+        "tee_report": { "type": "string" }
+      }
+    },
+    "jurisdiction": {
+      "type": "object",
+      "properties": {
+        "region": { "type": "string" },
+        "governance_pack": { "type": "string" }
+      },
+      "required": ["region"]
+    },
+    "zk_proof": {
+      "type": "object",
+      "properties": {
+        "scheme": { "type": "string" },
+        "proof_blob": { "type": "string" }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "properties": {
+        "triage_band": { "type": "string", "enum": ["83", "16", "1"] },
+        "verdict": { "type": "string", "enum": ["APPROVED", "QUARANTINED", "ESCALATED"] },
+        "latency_ms": { "type": "number" }
+      },
+      "required": ["triage_band", "verdict"]
+    }
+  },
+  "required": ["handshake_id", "timestamp", "agent", "model", "policy", "jurisdiction", "decision"]
+}

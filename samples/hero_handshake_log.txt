@@ -1,0 +1,20 @@
+[PTV] Hero Handshake – SAMPLE ONLY (LOCAL_MOCK)
+
+handshake_id      : ptv-hero-2026-04-03T08:00:00Z-0001
+timestamp         : 2026-04-03T08:00:00Z
+agent_id          : agent-clinical-cdss-α-42
+purpose           : "EU telehealth triage – non-emergency"
+model_hash        : sha256:MODEL_HASH_SAMPLE
+policy_hash       : sha256:POLICY_HASH_SAMPLE
+region            : "eu-central"
+governance_pack   : "EU_AI_Act_Art15+Art50"
+
+tpm_quote         : "tpm2-quote:BASE64_SAMPLE"
+zk_proof_scheme   : "groth16"
+zk_proof_hash     : sha256:ZK_PROOF_SAMPLE
+
+triage_band       : 1
+verdict           : "ESCALATED"
+latency_ms        : 187
+
+note              : "Sample, non‑production values. For spec illustration only."
