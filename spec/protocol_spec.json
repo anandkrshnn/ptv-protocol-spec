@@ -1,104 +1,120 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "PTV Digital Passport v2.0",
-  "description": "Hardware-anchored identity with GAIP-2030 governance, 83/16/1 triage, and Post-Application-Era maturity",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/anandkrshnn/ptv-protocol-spec/spec/protocol_spec.json",
+  "title": "PTV Protocol Digital Passport v2.0",
+  "description": "JSON Schema for PTV Protocol Digital Passport format",
   "type": "object",
+  "required": ["version", "agent", "governance", "sovereign_bound", "cryptographic_evidence"],
+  
   "properties": {
-    "protocol": { "type": "string", "const": "PTV" },
-    "version": { "type": "string", "const": "2.0" },
+    "version": {
+      "type": "string",
+      "const": "2.0",
+      "description": "Protocol version (immutable)"
+    },
     
     "agent": {
       "type": "object",
+      "required": ["id", "name", "hardware_id", "maturity_level"],
       "properties": {
-        "id": { "type": "string", "format": "uri" },
-        "type": { "type": "string" },
-        "capabilities": { "type": "array", "items": { "type": "string" } },
-        "maturity_level": { 
-          "type": "integer", 
-          "enum": [1, 2, 3, 4, 5],
-          "description": "Post-Application-Era maturity level (1=Initial, 5=Optimizing)"
-        }
-      },
-      "required": ["id", "maturity_level"]
-    },
-    
-    "attestation": {
-      "type": "object",
-      "properties": {
-        "model_hash": { "type": "string" },
-        "policy_hash": { "type": "string" },
-        "hardware_anchor": {
-          "type": "object",
-          "properties": {
-            "type": { "type": "string", "enum": ["tpm2.0", "tee", "secure_enclave"] },
-            "manufacturer": { "type": "string" },
-            "evidence": { "type": "string" }
-          }
+        "id": {
+          "type": "string",
+          "pattern": "^urn:agent:[a-z0-9-]+:[a-z0-9-]+:[0-9]+$",
+          "description": "Unique agent identifier (URN format)",
+          "examples": ["urn:agent:healthcare:us-east:001"]
         },
-        "proof": { "type": "string" },
-        "generation_ms": { "type": "number" }
+        "name": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 255,
+          "description": "Human-readable agent name"
+        },
+        "hardware_id": {
+          "type": "string",
+          "pattern": "^TPM-2\\.0-[A-Z]+-[A-Z0-9]+:.+$",
+          "description": "TPM 2.0 Endorsement Key hash",
+          "examples": ["TPM-2.0-EK-SHA256:abc123..."]
+        },
+        "maturity_level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Post-Application-Era maturity (1=Initial, 5=Optimizing)"
+        }
       }
     },
     
     "governance": {
       "type": "object",
+      "required": ["triage_rule", "confidence_index", "policy_version"],
       "properties": {
-        "gaip_2030": {
-          "type": "object",
-          "properties": {
-            "policy_id": { "type": "string" },
-            "controls": { "type": "array", "items": { "type": "string" } },
-            "compliance_score": { "type": "number", "minimum": 0, "maximum": 1 }
-          }
-        },
         "triage_rule": {
-          "type": "object",
-          "properties": {
-            "tier": { "type": "string", "enum": ["ROUTINE", "ZK_PROOF", "BFT"] },
-            "percentage": { "type": "integer", "enum": [83, 16, 1] },
-            "rationale": { "type": "string" }
-          }
+          "type": "string",
+          "enum": ["ROUTINE", "ZK_PROOF", "BFT"],
+          "description": "Assigned verification tier based on 83/16/1 model"
         },
         "confidence_index": {
           "type": "number",
           "minimum": 0,
           "maximum": 1,
-          "description": "Required ≥0.95 for Level 4, ≥0.99 for Level 5"
+          "description": "Statistical confidence score (0.0 = no confidence, 1.0 = perfect)"
         },
-        "human_override": { "type": "boolean" }
-      },
-      "required": ["triage_rule", "confidence_index"]
+        "policy_version": {
+          "type": "string",
+          "pattern": "^GAIP-[0-9]{4}-v[0-9]+\\.[0-9]+$",
+          "description": "Governance policy version",
+          "examples": ["GAIP-2030-v1.2"]
+        }
+      }
     },
     
     "sovereign_bound": {
       "type": "object",
+      "required": ["jurisdiction"],
       "properties": {
-        "jurisdiction": { "type": "string" },
-        "compliance": { "type": "array", "items": { "type": "string" } },
-        "data_residency": { "type": "string" }
-      },
-      "required": ["jurisdiction"]
-    },
-    
-    "post_application": {
-      "type": "object",
-      "properties": {
-        "maturity_level": { "type": "integer", "enum": [1, 2, 3, 4, 5] },
-        "level_name": { "type": "string" },
-        "criteria_met": { "type": "array", "items": { "type": "string" } }
+        "jurisdiction": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "description": "ISO 3166-1 alpha-2 country code",
+          "examples": ["US", "EU", "SG"]
+        },
+        "data_residency": {
+          "type": "string",
+          "description": "Cloud region or data center identifier",
+          "examples": ["us-east-1", "eu-west-2", "on-prem-datacenter-01"]
+        }
       }
     },
     
-    "delegation": {
+    "cryptographic_evidence": {
       "type": "object",
+      "required": ["tpm_attestation", "signatures"],
       "properties": {
-        "issued_by": { "type": "string" },
-        "scope": { "type": "array", "items": { "type": "string" } },
-        "expires": { "type": "string", "format": "date-time" }
+        "tpm_attestation": {
+          "type": "string",
+          "contentEncoding": "base64",
+          "description": "TPM 2.0 Quote (includes PCR values, nonce, AIK signature)"
+        },
+        "zk_proof": {
+          "type": "string",
+          "contentEncoding": "base64",
+          "description": "Groth16 proof (only present if triage_rule = ZK_PROOF)"
+        },
+        "signatures": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Primary agent signatures (always required)",
+          "items": {
+            "type": "object",
+            "required": ["signer", "algorithm", "signature"],
+            "properties": {
+              "signer": { "type": "string" },
+              "algorithm": { "type": "string" },
+              "signature": { "type": "string", "contentEncoding": "base64" }
+            }
+          }
+        }
       }
-    },
-    
-    "signature": { "type": "string" }
-  },
-  "required": ["protocol", "version", "agent", "attestation", "governance", "sovereign_bound", "signature"]
+    }
+  }
 }

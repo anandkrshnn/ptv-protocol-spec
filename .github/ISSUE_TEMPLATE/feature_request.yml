@@ -1,0 +1,33 @@
+name: Feature Request
+description: Suggest a new feature or enhancement for the PTV Protocol.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea for PTV Protocol? We'd love to hear it!
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: Provide a clear and concise description of the proposed feature.
+      placeholder: I would like to see...
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: Why is this feature needed? What problem does it solve?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: A clear and concise description of how you think this should be implemented.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any alternative solutions or features you've considered.

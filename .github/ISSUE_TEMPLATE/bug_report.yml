@@ -1,0 +1,47 @@
+name: Bug Report
+description: Report a bug in the PTV Protocol specification or reference samples.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! Please fill out the form below.
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: Provide a clear and concise description of the bug.
+      placeholder: Describe what happened...
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to consistently reproduce the behavior.
+      placeholder: |
+        1. Run `python samples/minimal_verification.py`
+        2. Change XYZ...
+        3. Observe error...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: what actually happened.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Python version, TPM version.
+      placeholder: e.g. Ubuntu 22.04, Python 3.10, TPM 2.0 (Simulator)
